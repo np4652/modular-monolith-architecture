@@ -1,0 +1,50 @@
+@page "{id:guid}"
+@model App.Modules.UserManagement.Presentation.Pages.Users.EditModel
+@{
+    ViewData["Title"] = "Edit user";
+}
+
+@if (Model.UserDetails is null)
+{
+    <p>User not found.</p>
+}
+else
+{
+    <h1>Edit user</h1>
+    <p class="text-muted">@Model.UserDetails.Email</p>
+
+    <form method="post" class="entity-form">
+        <input type="hidden" asp-for="Input.UserId" />
+        <div asp-validation-summary="All" class="validation-summary"></div>
+
+        <div class="form-group">
+            <label asp-for="Input.DisplayName"></label>
+            <input asp-for="Input.DisplayName" class="form-control" />
+            <span asp-validation-for="Input.DisplayName" class="field-validation-error"></span>
+        </div>
+
+        <div class="form-group checkbox-option">
+            <label>
+                <input asp-for="Input.IsActive" type="checkbox" /> Active
+            </label>
+        </div>
+
+        <fieldset class="form-group">
+            <legend>Roles</legend>
+            @foreach (var role in Model.UserDetails.Roles)
+            {
+                <label class="checkbox-option">
+                    <input type="checkbox" name="Input.RoleIds" value="@role.Id" checked="@role.Selected" /> @role.Name
+                </label>
+            }
+        </fieldset>
+
+        <button type="submit" class="btn btn-primary">Save changes</button>
+        <a asp-page="Index" class="btn btn-link">Cancel</a>
+    </form>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="module" src="~/js/modules/user-management/users/edit.js"></script>
+}

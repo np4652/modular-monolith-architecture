@@ -1,0 +1,62 @@
+@page
+@model App.Modules.UserManagement.Presentation.Pages.Roles.IndexModel
+@{
+    ViewData["Title"] = "Roles";
+}
+
+<h1>Roles</h1>
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Permissions</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var role in Model.Roles)
+        {
+            <tr>
+                <td>@role.Name</td>
+                <td>@role.Description</td>
+                <td>@role.PermissionCount</td>
+                <td>
+                    <a asp-page="Edit" asp-route-id="@role.Id">Edit</a>
+                    @if (!role.IsSystemRole)
+                    {
+                        <form method="post" asp-page-handler="Delete" asp-route-id="@role.Id" class="inline-form"
+                              data-confirm="Delete role '@role.Name'?">
+                            <button type="submit" class="btn btn-link btn-danger">Delete</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>New role</h2>
+
+<form method="post" asp-page-handler="Create" class="entity-form">
+    <div asp-validation-summary="All" class="validation-summary"></div>
+
+    <div class="form-group">
+        <label asp-for="Input.Name"></label>
+        <input asp-for="Input.Name" class="form-control" />
+        <span asp-validation-for="Input.Name" class="field-validation-error"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Input.Description"></label>
+        <input asp-for="Input.Description" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create role</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script type="module" src="~/js/modules/user-management/roles/index.js"></script>
+}

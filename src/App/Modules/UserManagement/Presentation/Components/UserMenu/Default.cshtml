@@ -1,0 +1,17 @@
+@model App.Modules.UserManagement.Presentation.Components.UserMenu.CurrentUserSummary
+
+@if (Model.IsAuthenticated)
+{
+    <li class="nav-item d-flex align-items-center">
+        <span class="nav-link text-dark">@Model.DisplayName</span>
+        <form method="post" action="/Account/Logout" class="d-inline">
+            <button type="submit" class="btn btn-link nav-link">Sign out</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="/Account/Login">Sign in</a>
+    </li>
+}

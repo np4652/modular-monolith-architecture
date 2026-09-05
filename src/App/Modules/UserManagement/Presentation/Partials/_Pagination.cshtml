@@ -1,0 +1,21 @@
+@model App.BuildingBlocks.Application.Common.IPagedResult
+@{
+    // Callers may set ViewData["PaginationExtraQuery"] (e.g. "&Search=foo") so other
+    // filters on the page survive navigating between pages.
+    var extraQuery = ViewData["PaginationExtraQuery"] as string ?? "";
+}
+
+@if (Model.TotalPages > 1)
+{
+    <nav class="pagination" aria-label="Pagination">
+        <a class="page-link @(Model.HasPreviousPage ? "" : "disabled")"
+           href="?PageNumber=@(Model.Page - 1)@extraQuery"
+           aria-disabled="@(!Model.HasPreviousPage)">Previous</a>
+
+        <span class="page-status">Page @Model.Page of @Model.TotalPages</span>
+
+        <a class="page-link @(Model.HasNextPage ? "" : "disabled")"
+           href="?PageNumber=@(Model.Page + 1)@extraQuery"
+           aria-disabled="@(!Model.HasNextPage)">Next</a>
+    </nav>
+}

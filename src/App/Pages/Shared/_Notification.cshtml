@@ -1,0 +1,15 @@
+@{
+    var errorMessage = TempData["ErrorMessage"] as string;
+    var successMessage = TempData["SuccessMessage"] as string;
+}
+
+<div id="notification-container" class="notification-container" aria-live="polite">
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="notification notification--error" role="alert">@errorMessage</div>
+    }
+    @if (!string.IsNullOrEmpty(successMessage))
+    {
+        <div class="notification notification--success" role="status">@successMessage</div>
+    }
+</div>

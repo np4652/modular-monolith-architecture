@@ -1,0 +1,8 @@
+@model IReadOnlyList<App.Modules.UserManagement.Presentation.Components.NavigationMenu.NavigationLink>
+
+@foreach (var link in Model)
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="@link.Page">@link.Text</a>
+    </li>
+}

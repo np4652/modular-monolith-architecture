@@ -1,0 +1,57 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.2.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.11">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+    <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.18.0" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.18.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.18.0" />
+    <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.18.0" />
+    <PackageReference Include="RabbitMQ.Client" Version="7.2.2" />
+    <PackageReference Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
+    <PackageReference Include="StackExchange.Redis" Version="3.1.31" />
+  </ItemGroup>
+
+  <!--
+    Every module physically owns its Razor Pages/Partials/Components under
+    Modules/{Module}/Presentation/ - the .cshtml and its .cshtml.cs sit side by side
+    in the same module folder. Only the compiled item's virtual/route path is
+    remapped (via %(TargetPath), the same metadata Link would otherwise populate) so
+    the standard build-time Razor Pages engine still discovers and routes them under
+    its "/Pages" convention. Unlike %(Link), %(TargetPath) does not change how the
+    IDE displays or groups the file - it stays shown at its real, physical, module
+    location, matching its .cshtml.cs sibling.
+  -->
+  <ItemGroup>
+    <Content Remove="Modules\UserManagement\Presentation\Pages\**\*.cshtml" />
+    <Content Include="Modules\UserManagement\Presentation\Pages\**\*.cshtml" TargetPath="Pages\%(RecursiveDir)%(Filename)%(Extension)" />
+
+    <!-- Partial views resolve via Razor's standard "/Pages/Shared/{0}.cshtml" search path. -->
+    <Content Remove="Modules\UserManagement\Presentation\Partials\**\*.cshtml" />
+    <Content Include="Modules\UserManagement\Presentation\Partials\**\*.cshtml" TargetPath="Pages\Shared\%(RecursiveDir)%(Filename)%(Extension)" />
+
+    <!-- View Components resolve via "/Pages/Shared/Components/{Name}/{View}.cshtml". -->
+    <Content Remove="Modules\UserManagement\Presentation\Components\**\*.cshtml" />
+    <Content Include="Modules\UserManagement\Presentation\Components\**\*.cshtml" TargetPath="Pages\Shared\Components\%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="Modules\UserManagement\Presentation\Pages\Account\_ViewStart.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>
